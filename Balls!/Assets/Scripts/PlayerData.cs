@@ -12,14 +12,6 @@ public class PlayerData : MonoBehaviour
     {
         OnPlayerDataChange = AddScore;
     }
-    //private void Update()
-    //{
-    //    if (!isStarted)
-    //    {
-    //        isStarted = true;
-    //        StartCoroutine(CheckBalls(5));
-    //    }
-    //}
 
     private void AddScore(int x)
     {

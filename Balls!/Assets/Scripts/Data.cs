@@ -16,16 +16,15 @@ public class Data : MonoBehaviour
     }
     public void LoadGameData()
     {
+        BinaryFormatter bf = new BinaryFormatter();
         if (File.Exists(Application.persistentDataPath + filename))
         {
-            BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + filename, FileMode.Open);
             scoreToSer = (int)bf.Deserialize(file);
             file.Close();
         }
         else
         {
-            BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + filename, FileMode.CreateNew);
             bf.Serialize(file,0);
             file.Close();

@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         if (playerController._isTouched && !isEnd)
         {
             isEnd = true;
-            StartCoroutine(CheckBalls(3));
+            StartCoroutine(CheckBalls(1.5f));
         }
     }
 
@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
                 {
                     TextController.OnWinLoseTextUpdated?.Invoke(false);
                 }
-                yield break;
+                yield return new WaitForSeconds(3);
+                RestartButton.RestartGame();
             }
 
         }

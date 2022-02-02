@@ -611,7 +611,7 @@ MonoBehaviour:
   - {fileID: 8346873038053774022, guid: 8cd6a009dbeceb14cae54d6fda0f5f42, type: 3}
   playerController: {fileID: 783924237}
   playerData: {fileID: 783924238}
-  maxBalls: 300
+  maxBalls: 230
   playerDataClass: {fileID: 289100776}
 --- !u!4 &289100775
 Transform:
