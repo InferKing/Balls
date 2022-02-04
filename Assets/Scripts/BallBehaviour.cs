@@ -5,6 +5,7 @@ public class BallBehaviour : MonoBehaviour
 {
     [HideInInspector] public List<int> indexes = new List<int>();
     private bool IAmDead = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "BucketTrigger")

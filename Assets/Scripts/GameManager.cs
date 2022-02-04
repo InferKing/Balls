@@ -14,11 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Data playerDataClass;
     public static Action<GameObject,GameObject> OnBallDown;
     public static Action<int> OnBallDestroyed;
+    private List<int> countOfBalls;
     private bool isEnd = false;
     private int count = 3;
     
     private void Start()
     {
+        countOfBalls = new List<int>();
+
         OnBallDown = SpawnBalls;
         OnBallDestroyed = AddCount;
 
@@ -88,22 +91,56 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(duration);
             GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Ball");
             Debug.Log($"Balls on scene before check win/lose: {gameObjects.Length}");
+            StartCoroutine(CheckStackedBalls(gameObjects.Length));
             if (gameObjects.Length == 0)
             {
-                if (playerDataClass.scoreToSer < playerData.score)
-                {
-                    playerDataClass.scoreToSer = playerData.score;
-                    playerDataClass.SaveGameData();
-                    TextController.OnWinLoseTextUpdated?.Invoke(true);
-                }
-                else
-                {
-                    TextController.OnWinLoseTextUpdated?.Invoke(false);
-                }
+                ShowWinLoseText();
                 yield return new WaitForSeconds(3);
                 RestartButton.RestartGame();
             }
 
+        }
+    }
+
+    private IEnumerator CheckStackedBalls(int length)
+    {
+        countOfBalls.Add(length);
+        if (countOfBalls.Count == 3)
+        {
+            int c = 0, tempItem = countOfBalls[0];
+            foreach (var item in countOfBalls)
+            {
+                if (item == tempItem)
+                {
+                    c++;
+                }
+            }
+            if (c == 3)
+            {
+                PlayerData.OnPlayerDataChange?.Invoke(length);
+                ShowWinLoseText();
+                yield return new WaitForSeconds(3);
+                RestartButton.RestartGame();
+            }
+            else
+            {
+                countOfBalls.RemoveAt(0);
+            }
+        }
+        yield return null;
+    }
+
+    private void ShowWinLoseText()
+    {
+        if (playerDataClass.scoreToSer < playerData.score)
+        {
+            playerDataClass.scoreToSer = playerData.score;
+            playerDataClass.SaveGameData();
+            TextController.OnWinLoseTextUpdated?.Invoke(true);
+        }
+        else
+        {
+            TextController.OnWinLoseTextUpdated?.Invoke(false);
         }
     }
     private void AddCount(int x)
