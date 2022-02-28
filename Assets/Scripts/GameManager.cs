@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         if (playerController._isTouched && !isEnd)
         {
             isEnd = true;
-            StartCoroutine(CheckBalls(1.5f));
+            StartCoroutine(CheckBalls(0.5f));
         }
     }
 
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator CheckStackedBalls(int length)
     {
         countOfBalls.Add(length);
-        if (countOfBalls.Count == 3)
+        if (countOfBalls.Count == 5)
         {
             int c = 0, tempItem = countOfBalls[0];
             foreach (var item in countOfBalls)
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
                     c++;
                 }
             }
-            if (c == 3)
+            if (c == 5)
             {
                 PlayerData.OnPlayerDataChange?.Invoke(length);
                 ShowWinLoseText();
